@@ -1,0 +1,43 @@
+diff -ru pristine/drivers/aic8800/aic_load_fw/aic_compat_8800d80.h kilam994/drivers/aic8800/aic_load_fw/aic_compat_8800d80.h
+--- pristine/drivers/aic8800/aic_load_fw/aic_compat_8800d80.h	2026-06-04 21:31:48.000000000 +0100
++++ kilam994/drivers/aic8800/aic_load_fw/aic_compat_8800d80.h	2026-09-13 14:15:03.869012605 +0100
+@@ -5,6 +5,7 @@
+ #define USB_DEVICE_ID_AIC_8800D81       0x8D81
+ #define USB_DEVICE_ID_AIC_8800D40       0x8D40
+ #define USB_DEVICE_ID_AIC_8800D41       0x8D41
++#define USB_DEVICE_ID_AIC_8800D80_UGREEN 0x8D88
+ 
+ #define FW_BASE_NAME_8800D80                "fmacfw_8800d80.bin"
+ #define FW_RF_BASE_NAME_8800D80             "fmacfw_rf_8800d80.bin"
+diff -ru pristine/drivers/aic8800/aic_load_fw/aicwf_usb.c kilam994/drivers/aic8800/aic_load_fw/aicwf_usb.c
+--- pristine/drivers/aic8800/aic_load_fw/aicwf_usb.c	2026-06-04 21:31:48.000000000 +0100
++++ kilam994/drivers/aic8800/aic_load_fw/aicwf_usb.c	2026-09-13 14:15:14.932221756 +0100
+@@ -1375,6 +1375,10 @@
+ 	usb_dev->chipid = PRODUCT_ID_AIC8800D81;
+ 	AICWFDBG(LOGINFO, "%s USE AIC8800D81 (368b:8d81)\r\n", __func__);
+ 	return 0;
++    }else if(pid == USB_DEVICE_ID_AIC_8800D80_UGREEN && vid == USB_VENDOR_ID_AIC_V2){
++	usb_dev->chipid = PRODUCT_ID_AIC8800D81;
++	AICWFDBG(LOGINFO, "%s USE AIC8800D80_UGREEN (368b:8d88)\r\n", __func__);
++	return 0;
+     }else{
+         return -1;
+     }
+@@ -1691,7 +1695,8 @@
+         id->idProduct == USB_DEVICE_ID_AIC_8800D81 ||
+ 	    id->idProduct == USB_DEVICE_ID_AIC_8800D41 ||
+ 	    id->idProduct == USB_DEVICE_ID_AIC_8800D81X2 ||
+-	    id->idProduct == USB_DEVICE_ID_AIC_8800D89X2)){
++	    id->idProduct == USB_DEVICE_ID_AIC_8800D89X2 ||
++	    id->idProduct == USB_DEVICE_ID_AIC_8800D80_UGREEN)){
+ 		return -1;
+ 	}
+ 
+@@ -1856,6 +1861,7 @@
+     {USB_DEVICE(USB_VENDOR_ID_AIC_V2, USB_DEVICE_ID_AIC_8800D89X2)},
+     {USB_DEVICE(USB_VENDOR_ID_AIC_V2, USB_DEVICE_ID_AIC_8800D40X2)},
+     {USB_DEVICE(USB_VENDOR_ID_AIC_V2, USB_DEVICE_ID_AIC_8800D81)},   /* 368b:8d81 */
++    {USB_DEVICE(USB_VENDOR_ID_AIC_V2, USB_DEVICE_ID_AIC_8800D80_UGREEN)},   /* 368b:8d88 UGREEN */
+     {}
+ };
+ 
