@@ -33,9 +33,16 @@ in
   '';
 
   # This adapter cold-boots into "Aic MSC" mass-storage mode (a69c:5724) and
-  # needs a real SCSI eject to switch into its WiFi identity (a69c:8d80) —
-  # upstream's own udev rule for this exact device does the same thing.
+  # needs a real SCSI eject to switch into its WiFi identity (a69c:8d80 /
+  # UGREEN 368b:8d88) — upstream's own udev rule for this exact device does
+  # the same thing.
+  #
+  # USB autosuspend also drops this chipset. Keep the dongle powered in every
+  # known identity; do not disable autosuspend globally.
   services.udev.extraRules = ''
     KERNEL=="sd*", ATTRS{idVendor}=="a69c", ATTRS{idProduct}=="5724", RUN+="${pkgs.util-linux}/bin/eject /dev/%k"
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="a69c", ATTR{idProduct}=="5724", TEST=="power/control", ATTR{power/control}="on"
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="a69c", ATTR{idProduct}=="8d80", TEST=="power/control", ATTR{power/control}="on"
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="368b", ATTR{idProduct}=="8d88", TEST=="power/control", ATTR{power/control}="on"
   '';
 }
