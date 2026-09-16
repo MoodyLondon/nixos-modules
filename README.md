@@ -1,6 +1,6 @@
 # nixos-modules
 
-Reusable NixOS modules. This flake has **no `nixpkgs` input**; consumers use their own `pkgs`.
+Reusable NixOS modules. This flake has **no `nixpkgs` input**; consumers use their own `pkgs`. Agent notes for the next session are in [`HANDOFF.md`](./HANDOFF.md).
 
 There is no catch-all default module. Import only the modules you need.
 
